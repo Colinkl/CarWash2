@@ -10,7 +10,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connString = "Data Source=CAT-PC; Initial Catalog= CarWash2;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+var connString = builder.Configuration["CarWashApp:ConnectionString"];
+//var connString = "Data Source=localhost; Initial Catalog= CarWash2;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connString));
 var app = builder.Build();
 
