@@ -50,6 +50,60 @@ namespace CarWash2.Controllers
             return customerCar;
         }
 
+        // GET: api/CustomerCars?plate = 1234
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<CustomerCar>>> GetCustomerCarByPlate(string plate)
+        {
+            if (_context.CustomerCars == null)
+            {
+                return NotFound();
+            }
+            var customerCar = await _context.CustomerCars.Where(x=> x.Plate == plate).ToListAsync();
+
+            if (customerCar == null)
+            {
+                return NotFound();
+            }
+
+            return customerCar;
+        }
+
+        // GET: api/CustomerCars?CustomerId = 1234
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<CustomerCar>>> GetCustomerCarByCustomerId(int CustomerId)
+        {
+            if (_context.CustomerCars == null)
+            {
+                return NotFound();
+            }
+            var customerCar = await _context.CustomerCars.Where(x => x.CustomerId == CustomerId).ToListAsync();
+
+            if (customerCar == null)
+            {
+                return NotFound();
+            }
+
+            return customerCar;
+        }
+
+        // GET: api/CustomerCars?CarId = 1234
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<CustomerCar>>> GetCustomerCarByCarId(int CarId)
+        {
+            if (_context.CustomerCars == null)
+            {
+                return NotFound();
+            }
+            var customerCar = await _context.CustomerCars.Where(x => x.CarId == CarId).ToListAsync();
+
+            if (customerCar == null)
+            {
+                return NotFound();
+            }
+
+            return customerCar;
+        }
+
         // PUT: api/CustomerCars/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

@@ -50,6 +50,29 @@ namespace CarWash2.Controllers
             return employee;
         }
 
+        // GET: api/Employees?FirstName = "meow"&LastName = "cat" & Patronymic = "mmm"
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployee(string FirstName, string LastName, string Patronymic)
+        {
+            if (_context.Employees == null)
+            {
+                return NotFound();
+            }
+            var employeeReq =  _context.Employees
+                .Where(e => EF.Functions.Like(e.FirstName, FirstName) && 
+                EF.Functions.Like(e.LastName, LastName) && 
+                EF.Functions.Like(e.Patronymic, Patronymic));
+
+            var employee = await employeeReq.ToListAsync();
+
+            if (employee == null)
+            {
+                return NotFound();
+            }
+
+            return employee;
+        }
+
         // PUT: api/Employees/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]

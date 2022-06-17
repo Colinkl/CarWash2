@@ -50,6 +50,47 @@ namespace CarWash2.Controllers
             return customer;
         }
 
+        // GET: api/Customers?FirstName =meow&LastName = cat & Patronymic = mmm
+        [HttpGet("{id}")]
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomerByFullname(string FirstName, string LastName, string Patronymic)
+        {
+            if (_context.Customers == null)
+            {
+                return NotFound();
+            }
+            var customerReq = _context.Customers
+                .Where(e => EF.Functions.Like(e.FirstName, FirstName) &&
+                EF.Functions.Like(e.LastName, LastName) &&
+                EF.Functions.Like(e.Patronymic, Patronymic));
+
+            var customer = await customerReq.ToListAsync();
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return customer;
+        }
+
+        // GET: api/Customers?Email = meow
+        [HttpGet]
+        public async Task<ActionResult<Customer>> GetCustomerByEmail(string Email)
+        {
+            if (_context.Customers == null)
+            {
+                return NotFound();
+            }
+            var customerCar = await _context.Customers.Where(x => x.Email == Email).FirstOrDefaultAsync();
+
+            if (customerCar == null)
+            {
+                return NotFound();
+            }
+
+            return customerCar;
+        }
+
         // PUT: api/Customers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
